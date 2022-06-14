@@ -4,6 +4,7 @@ use std::io::stdin;
 struct Wordle {
     to_day_word : String,
     guess_word : String,
+    is_game_over: bool
 }
 
 
@@ -13,7 +14,8 @@ impl Wordle {
     }
 
     fn read_user_guess(&mut self) {
-        println!("Enter your name :");
+        println!("Enter your guess :");
+        self.guess_word = String::from("");
         std::io::stdin().read_line(&mut self.guess_word).unwrap();
         self.trim_guess();
     } 
@@ -28,7 +30,6 @@ impl Wordle {
 
     fn trim_guess(&mut self){
         self.guess_word.pop();
-        // self.guess_word.pop();
     }
 
     fn eval_every_letter(&self) {
@@ -37,7 +38,17 @@ impl Wordle {
         let guess_word_vec: Vec<char> = self.guess_word.chars().collect();
         
         for i in 0..today_wrod_vec.len() {
-            
+            if guess_word_vec[i] == today_wrod_vec[i] {
+                println!("the {} letter is in the right place" , guess_word_vec[i])
+            }
+            else {
+                if (today_wrod_vec.contains(&guess_word_vec[i])) {
+                    println!("the {} letter exists but not in this place " , guess_word_vec[i])
+                }
+                else {
+                    println!("the {} letter does not exist in the original word" , guess_word_vec[i])
+                }
+            }
         }
 
     }
@@ -51,8 +62,11 @@ fn main () {
         guess_word: String::from(""),
     };
 
-    
-    wordle_one.read_user_guess();
-    wordle_one.print_info();
-    wordle_one.evaluate_guess();
+    for i in 0..5 {
+        wordle_one.read_user_guess();
+        wordle_one.print_info();
+        wordle_one.evaluate_guess();
+
+    }
+  
 }
