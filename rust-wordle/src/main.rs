@@ -1,4 +1,5 @@
-
+#[macro_use]
+extern crate colour;
 #[derive(Debug)]
 struct Wordle {
     to_day_word : String,
@@ -10,7 +11,8 @@ struct Wordle {
 
 impl Wordle {
     fn print_info(&self){
-        println!("the right word is {:?}" , self.to_day_word);
+        print!("the right word is ");
+        blue_ln!("{:?}" , self.to_day_word)
     }
 
 
@@ -50,18 +52,18 @@ impl Wordle {
         
         for i in 0..today_wrod_vec.len() {
             if guess_word_vec[i] == today_wrod_vec[i] {
-                println!("the {} letter is in the right place" , guess_word_vec[i])
+                green!(" \t {}", guess_word_vec[i])
             }
             else {
                 if today_wrod_vec.contains(&guess_word_vec[i]) {
-                    println!("the {} letter exists but not in this place " , guess_word_vec[i])
+                    yellow!("\t {}" , guess_word_vec[i])
                 }
                 else {
-                    println!("the {} letter does not exist in the original word" , guess_word_vec[i])
+                    red!("\t {}" , guess_word_vec[i])
                 }
             }
         }
-
+        println!()
     }
         
 }
@@ -78,10 +80,10 @@ fn main () {
     for _i in 0..5 {
         if !wordle_one.is_game_over {
             wordle_one.read_user_guess();
-            wordle_one.print_info();
             wordle_one.evaluate_guess();
         }
-
     }
+
+    wordle_one.print_info();
   
 }
